@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Home, Posts, Register } from "./components";
+import { Home, Posts, LogIn } from "./components";
 import { Route, Switch, Link } from "react-router-dom";
 import { fetchPosts } from './api/api';
 
@@ -25,7 +25,7 @@ const App = () => {
             <nav>
                 <Link to="/">Home</Link>
                 <Link to="/Posts">Posts</Link>
-                <Link to="/Register">Log In</Link>
+                <Link to="/LogIn">Log In</Link>
             </nav>
             <Switch>
                 <Route exact path="/">
@@ -34,8 +34,8 @@ const App = () => {
                 <Route path="/Posts">
                     <Posts posts={posts}/>
                 </Route>
-                <Route path="/Register">
-                    <Register></Register>
+                <Route path="/LogIn">
+                    <LogIn></LogIn>
                 </Route>
             </Switch>
         </div>

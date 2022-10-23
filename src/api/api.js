@@ -10,4 +10,27 @@ export const fetchPosts = async () => {
     } catch(error) {
         console.error("Error fetching posts", error);
     }
-}
+};
+
+export const fetchRegister = async (username, password) => {
+    try {
+        const response = await fetch(`${BASEURL}/users/register`, { 
+        method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                user: {
+                    username,
+                    password,
+                },
+            }),
+        });
+        console.log("response2", response);
+        const data = await response.json();
+        console.log("THEDATA", data);
+        return data;
+    } catch(error) {
+        console.error("Error registering new user", error)
+    }
+};

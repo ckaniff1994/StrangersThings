@@ -1,7 +1,7 @@
 import React from "react";
 
 const PostsItem = ({post}) => {
-    console.log("POSTITEM",post)
+    
     return (
     <div>
         <div>
