@@ -1,20 +1,16 @@
 import React, {useEffect, useState} from "react";
-import { fetchPosts } from "../api/api";
+import PostsItem from "./PostsItem";
 
 
-const Posts = (props) => {
-    const {posts} = props;
-    
+const Posts = ({posts}) => {
+    console.log(posts)
     return (
-        <div>
-            <h1>
-                Check out some stuff!
-            </h1>
-            {posts.map(post => {
-                return <div key={post._id} className="post-list">{post.title}</div>
-            })}
-
-        </div>
+    <div>
+        {posts.map((post) => {
+            // console.log("hi", post)
+            return <PostsItem key={post._id} post={post}/>
+        })}
+    </div>
     );
 };
 
