@@ -22,8 +22,8 @@ export const fetchRegister = async (username, password) => {
             body: JSON.stringify({
                 user: {
                     username,
-                    password,
-                },
+                    password
+                }
             }),
         });
         console.log("response2", response);
@@ -34,3 +34,21 @@ export const fetchRegister = async (username, password) => {
         console.error("Error registering new user", error)
     }
 };
+
+export const fetchGuest = async (token) => {
+    try {
+        const response = await fetch(`${BASEURL}/users/me`, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+        });
+        console.log("RESONSE 3", response);
+        const {data} = await response.json();
+        console.log("USER DATA", data);
+        return data;
+
+    } catch(error) {
+        console.error(error);
+    }
+}
