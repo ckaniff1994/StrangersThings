@@ -11,14 +11,15 @@ const AccountForm = ({setToken}) => {
 
     const onSubmitHandler = async (event) => {
         event.preventDefault();
-        try {
-            const {data} = await fetchRegister(username, password);
-            console.log("DATADATA", data)
-            setToken(data.token);
-            history.push("/");
-        } catch(error) {
+            const {error, token, message} = await fetchRegister(username, password);
+            
             console.error(error);
-        }
+
+            setToken(token);
+
+            if (token) {
+                history.push("/");
+            }
     };
 
     const title = action === "LogIn" ? "Log In" : "Sign Up";

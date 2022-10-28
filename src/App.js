@@ -7,7 +7,7 @@ const App = () => {
 
     const [posts, setPosts] = useState([]);
     const [token, setToken] = useState(
-        window.localStorage.getItem("token") || ""
+        window.localStorage.getItem("token") || null
         );
     const [guest, setGuest] = useState(null);
 
@@ -15,14 +15,13 @@ const App = () => {
     
     useEffect(() => {
         const getPosts = async () => {
-            try {
-                const result = await fetchPosts();
-                setPosts(result);
-                console.log(result)
-            } catch(error) {
-                console.error("There was an error fetching posts", error);
+                const {error, posts} = await fetchPosts();
+
+                if (error) {
+                    console.error(error);
+                }
+                setPosts(posts);
             }
-        };
         getPosts();
     }, []);
 
