@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Home, Posts, AccountForm, PostsCreate } from "./components";
 import { Route, Switch, Link, useHistory } from "react-router-dom";
-import { fetchPosts, fetchGuest, fetchLogin } from './api/api';
+import { fetchPosts, fetchGuest} from './api/api';
 
 const App = () => {
 
@@ -9,7 +9,7 @@ const App = () => {
     const [token, setToken] = useState(
         window.localStorage.getItem("token") || null
         );
-    const [guest, setGuest] = useState(null);
+    const [username, setUsername] = useState(null);
 
     const history = useHistory()
     
@@ -27,10 +27,12 @@ const App = () => {
 
     useEffect(() => {
         if (token) {
+            console.log(token)
             const getGuest = async () => {
                 const {username} = await fetchGuest(token);
+                console.log("RESULT", username)
+                setUsername(username);
                 console.log("USERNAME", username);
-                setGuest(username);
             };
             getGuest();
         }
@@ -67,7 +69,7 @@ const App = () => {
                         }}>Log Out</button>
                     ):(
                     <>
-                        <Link to="/AccountForm/LogIn">
+                        <Link to="/AccountForm/login">
                             Log In
                         </Link>
                         <Link to="/AccountForm/register">
@@ -79,7 +81,7 @@ const App = () => {
             </nav>
             <Switch>
                 <Route exact path="/">
-                    <Home guest={guest}/>
+                    <Home username={username}/>
                 </Route>
                 <Route path="/Posts/create">
                     <PostsCreate token={token} setPosts={setPosts} />

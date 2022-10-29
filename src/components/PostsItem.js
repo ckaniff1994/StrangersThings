@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 const PostsItem = ({post}) => {
-    
+
     return (
     <div>
         <div>
@@ -12,6 +12,8 @@ const PostsItem = ({post}) => {
             <div>Description:{post.description}</div>
             <div>Location:{post.location}</div>
             <Link to="">View Post</Link>
+            <div>
+            </div>
         </div>
     </div>
     )

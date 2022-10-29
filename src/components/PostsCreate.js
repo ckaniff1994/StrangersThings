@@ -20,6 +20,10 @@ const PostsCreate = ({token, setPosts}) => {
         if (post) {
             setPosts((prevPosts) => [...prevPosts, post]);
             setDescription('');
+            setTitle('');
+            setPrice('');
+            setLocation('');
+            setWillDeliver('');
         } else {
             console.error(error)
         }
@@ -27,6 +31,15 @@ const PostsCreate = ({token, setPosts}) => {
         
     }}>
         <h4>Create a Post</h4>
+        <div>
+            <label htmlFor="title">Title</label>
+            <input
+                onChange={event => {setTitle(event.target.value)}}
+                value={title}
+                type="text"
+                placeholder="Title your post"
+                required></input>
+        </div>
         
         <div>
             <label htmlFor="description">Description</label>
@@ -36,6 +49,35 @@ const PostsCreate = ({token, setPosts}) => {
                 type="text" 
                 placeholder="Quick description of post"
                 required></input>
+        </div>
+
+        <div>
+            <label htmlFor="price">Price</label>
+            <input
+                onChange={event => {setPrice(event.target.value)}}
+                value={price}
+                type="text"
+                placeholder="Name your price"
+                required></input>
+        </div>
+
+        <div>
+            <label htmlFor="location">Location</label>
+            <input
+                value={location}
+                type="text"
+                placeholder="Where are you?"
+                onChange={event => {setLocation(event.target.value)}}></input>
+        </div>
+
+        <div>
+            <label htmlFor="willDeliver">Pick up or Delivery?</label>
+            <input
+                value={willDeliver}
+                type="text"
+                placeholder="Yes or No"
+                required
+                onChange={event => {setWillDeliver(event.target.value)}}></input>
         </div>
 
         <button type="submit">Create</button>

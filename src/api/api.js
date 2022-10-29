@@ -99,7 +99,7 @@ export const fetchRegister = async (username, password) => {
 
 export const fetchLogin = async (username, password) => {
     try {
-        const {success, error, data} = await callAPI('users/login', {
+        const {success, error, data} = await callAPI('/users/login', {
             method: "POST",
             body: {
                 user: {
@@ -132,11 +132,11 @@ export const fetchGuest = async (token) => {
         const {success, error, data} = await callAPI('/users/me', {
             token: token
         })
-
+        console.log("DATA", data)
         if(success) {
             return {
                 error: null,
-                user: data.user,
+                username: data.username,
                 message: data.message
             };
         } else {

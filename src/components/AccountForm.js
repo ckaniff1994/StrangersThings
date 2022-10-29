@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { fetchRegister } from '../api/api';
+import { fetchRegister, fetchLogin } from '../api/api';
 import {useParams, useHistory} from 'react-router-dom';
 
 const AccountForm = ({setToken}) => {
@@ -11,10 +11,16 @@ const AccountForm = ({setToken}) => {
 
     const onSubmitHandler = async (event) => {
         event.preventDefault();
-        const {error, token, message} = await fetchRegister(username, password);
-            
-        console.error(error);
 
+        const authenticated = action === "register" ? fetchRegister : fetchLogin;
+        console.log("ACTION", action)
+        console.log("name", username)
+        console.log("pass", password)
+        const {error, token, message} = await authenticated(username, password);
+        
+        if (error) {
+            console.error(error);
+        }
         setToken(token);
 
         if (token) {
@@ -22,7 +28,7 @@ const AccountForm = ({setToken}) => {
         }
     };
 
-    const title = action === "LogIn" ? "Log In" : "Sign Up";
+    const title = action === "login" ? "Log In" : "Sign Up";
 
     return (
         <form onSubmit={onSubmitHandler}>
