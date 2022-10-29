@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Home, Posts, AccountForm } from "./components";
+import { Home, Posts, AccountForm, PostsCreate } from "./components";
 import { Route, Switch, Link, useHistory } from "react-router-dom";
-import { fetchPosts, fetchGuest } from './api/api';
+import { fetchPosts, fetchGuest, fetchLogin } from './api/api';
 
 const App = () => {
 
@@ -37,11 +37,15 @@ const App = () => {
     }, [token])
 
     useEffect(() => {
+        if (token) {
         window.localStorage.setItem("token", token)
+        } else {
+          window.localStorage.removeItem("token")  
+        }
     }, [token])
 
     const logOut = () => {
-        setToken('');
+        setToken(null);
         setGuest(null);
         history.push('/')
     }
@@ -76,6 +80,9 @@ const App = () => {
             <Switch>
                 <Route exact path="/">
                     <Home guest={guest}/>
+                </Route>
+                <Route path="/Posts/create">
+                    <PostsCreate token={token} setPosts={setPosts} />
                 </Route>
                 <Route path="/Posts">
                     <Posts posts={posts}/>

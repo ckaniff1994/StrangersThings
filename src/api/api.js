@@ -13,15 +13,17 @@ const makeHeaders = (token) => {
 };
 
 const callAPI = async (path, givenOptions = {}) => {
+    const {token, method, body} = givenOptions;
+    
     const options = {
-        headers: makeHeaders(givenOptions.token)
+        headers: makeHeaders(token)
     }
 
-    if (givenOptions.method) {
+    if (method) {
         options.method = givenOptions.method;
     }
 
-    if (givenOptions.body) {
+    if (body) {
         options.body = JSON.stringify(givenOptions.body);
     }
 
@@ -134,12 +136,13 @@ export const fetchGuest = async (token) => {
         if(success) {
             return {
                 error: null,
-                guest: data.guest
+                user: data.user,
+                message: data.message
             };
         } else {
             return {
                 error: error.message,
-                guest: null
+                data: null
             }    
         }
     } catch(error) {
@@ -147,12 +150,45 @@ export const fetchGuest = async (token) => {
 
         return {
             error: "Failed to guest",
-            guest: null
+            data: null
         }
     }    
 }
 
-export const createPost = async () => {
+export const createPost = async (token, title, description, price, location, willDeliver) => {
+    try {
+        const {success, error, data} = await callAPI('/posts', {
+            token: token,
+            method: "POST",
+            body: {
+                post: {
+                    title,
+                    description,
+                    price,
+                    location,
+                    willDeliver
+                }
+            }
+        });
 
+        if (success) {
+            return {
+                error: null,
+                post: data.post
+            }
+        } else {
+            return {
+                error: error.message,
+                post: null
+            }
+        }
+    } catch(error) {
+        console.error("POST /post failed", error);
+
+        return {
+            error: "Failed to create Post",
+            post: null
+        }
+    }
 };
 
