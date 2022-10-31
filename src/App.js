@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Home, Posts, AccountForm, PostsCreate } from "./components";
+import { Home, Posts, AccountForm, PostsCreate, PostMessage, Inbox } from "./components";
 import { Route, Switch, Link, useHistory } from "react-router-dom";
 import { fetchPosts, fetchGuest} from './api/api';
 
@@ -15,7 +15,7 @@ const App = () => {
     
     useEffect(() => {
         const getPosts = async () => {
-                const {error, posts} = await fetchPosts();
+                const {error, posts} = await fetchPosts(token);
 
                 if (error) {
                     console.error(error);
@@ -48,31 +48,34 @@ const App = () => {
 
     const logOut = () => {
         setToken(null);
-        setGuest(null);
+        setUsername(null);
         history.push('/')
     }
 
     return (
-        <div>
-            <nav>
-                <Link to="/">
+        <div className="container">
+            <nav className="ui secondary menu">
+                <Link className="item" style={{color: "white"}} to="/">
                     Home
                 </Link>
-                <Link to="/Posts">
+                <Link className="item" style={{color: "white"}} to="/Posts">
                     Posts
                 </Link>
-                <div>
+                <Link className="item" style={{color: "white"}} to="/inbox">
+                    Inbox 
+                </Link>
+                <div className="right menu">
                     {token ? (
-                        <button onClick={(event) => {
+                        <button style={{color: "white"}} className="ui item" onClick={(event) => {
                             event.preventDefault();
                             logOut();
                         }}>Log Out</button>
                     ):(
                     <>
-                        <Link to="/AccountForm/login">
+                        <Link style={{color: "white"}} className="ui item" to="/AccountForm/login">
                             Log In
                         </Link>
-                        <Link to="/AccountForm/register">
+                        <Link style={{color: "white"}} className="ui item" to="/AccountForm/register">
                             Sign Up
                         </Link>
                     </>
@@ -86,11 +89,17 @@ const App = () => {
                 <Route path="/Posts/create">
                     <PostsCreate token={token} setPosts={setPosts} />
                 </Route>
+                <Route path="/Posts/:postId">
+                    <PostMessage posts={posts} token={token}/>
+                </Route>
                 <Route path="/Posts">
-                    <Posts posts={posts}/>
+                    <Posts posts={posts} token={token} setPosts={setPosts} />
                 </Route>
                 <Route path="/AccountForm/:action">
                     <AccountForm setToken={setToken}/>
+                </Route>
+                <Route path="/Inbox">
+                    <Inbox token={token} posts={posts} setPosts={setPosts} />
                 </Route>
             </Switch>
         </div>

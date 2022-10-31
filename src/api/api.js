@@ -33,9 +33,11 @@ const callAPI = async (path, givenOptions = {}) => {
     return result;
 }
 
-export const fetchPosts = async () => {
+export const fetchPosts = async (token) => {
     try{
-        const {success, error, data} = await callAPI(`/posts`);
+        const {success, error, data} = await callAPI(`/posts`, {
+            token: token
+        });
 
         if (success) {
             return {
@@ -155,7 +157,8 @@ export const fetchGuest = async (token) => {
     }    
 }
 
-export const createPost = async (token, title, description, price, location, willDeliver) => {
+
+export const createPost = async (token, title, description, location, price, willDeliver) => {
     try {
         const {success, error, data} = await callAPI('/posts', {
             token: token,
@@ -164,8 +167,8 @@ export const createPost = async (token, title, description, price, location, wil
                 post: {
                     title,
                     description,
-                    price,
                     location,
+                    price,
                     willDeliver
                 }
             }
@@ -192,3 +195,104 @@ export const createPost = async (token, title, description, price, location, wil
     }
 };
 
+export const deletePost = async (token, postId) => {
+    try {
+        const { success, error, data} = await callAPI(`/posts/${postId}`, {
+            method: "DELETE",
+            token
+        });
+
+        if (success) {
+            return {
+               error: null,
+               data: null 
+            }
+        } else {
+            return {
+                error: error.message,
+                data: null
+            }
+        }
+    } catch(error) {
+        console.error("there was an error deleting this post", error);
+
+        return {
+            error: "Could not delete vacation",
+            data: null
+        };
+    };
+}
+
+export const sendMessage = async (token, postId, message) => {
+    try {
+        const {success, error, data} = await callAPI(`/posts/${postId}/messages`, {
+            token: token,
+            method: "POST",
+            body: {
+                message: {
+                    content: message
+                },
+            }
+        });
+
+        if (success) {
+            return {
+                success: success,
+                error: null,
+                data: data.message
+            }
+        } else {
+            return {
+                success: success,
+                error: error.message,
+                data: null
+            }
+        }
+    } catch(error) {
+        console.error("Could not comment", error);
+
+        return {
+            success: false,
+            error: error.message,
+            data: null
+        }
+    }    
+}
+
+export const editPost = async (token, postId, title, description, price, location, willDeliver) => {
+    try {
+        const {success, error, data} = await callAPI(`/posts/${postId}`, {
+            token: token,
+            method: "PATCH",
+            body: {
+                post: {
+                    title,
+                    description,
+                    price,
+                    location,
+                    willDeliver
+                }
+            }
+        });
+
+        if (success) {
+            return {
+                error: null,
+                data: data.post
+            }
+        } else {
+            return {
+                error: error.message,
+                data: null
+            }
+        }
+
+    } catch(error) {
+        console.error("There was an error editing this post", error);
+
+        return {
+            error: "Could not edit Post",
+            data: null
+        }
+    }
+}

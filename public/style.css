@@ -1,0 +1,14 @@
+#posts {
+    background-image: url('https://images.thdstatic.com/productImages/9314caeb-f247-4b5e-ad69-ccb125c76fca/svn/multi-realstone-systems-decorative-wall-paneling-rwp-mlt-64_600.jpg');
+    background-size: cover !important;
+}
+
+.container {
+    background-color: rgb(92, 58, 58);
+    background-size: cover;
+    height: 100vh;
+    text-align: center;
+}
+
+
+

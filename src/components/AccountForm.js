@@ -13,9 +13,7 @@ const AccountForm = ({setToken}) => {
         event.preventDefault();
 
         const authenticated = action === "register" ? fetchRegister : fetchLogin;
-        console.log("ACTION", action)
-        console.log("name", username)
-        console.log("pass", password)
+        
         const {error, token, message} = await authenticated(username, password);
         
         if (error) {
@@ -31,33 +29,35 @@ const AccountForm = ({setToken}) => {
     const title = action === "login" ? "Log In" : "Sign Up";
 
     return (
-        <form onSubmit={onSubmitHandler}>
-            <h1>{title}</h1>
-            <div>
-                <label>Username:</label>
-                    <input 
-                    type="text" 
-                    value={username} 
-                    placeholder="Username" 
-                    required
-                    onChange={(event) => {setUsername(event.target.value)}} 
-                    />
-            </div>
-            <div>
-                <label>Password:</label>
-                    <input 
-                    type="password" 
-                    value={password} 
-                    placeholder="Password"
-                    minLength="8"
-                    required
-                    onChange={(event) => {setPassword(event.target.value)}}
-                    />
-            </div>
-            <button type="submit">
-                {title}
-            </button>
-        </form>
+        <div className="ui inverted segment">
+            <form className="ui inverted form" onSubmit={onSubmitHandler}>
+                <h1>{title}</h1>
+                <div className="field">
+                    <label>Username:</label>
+                        <input 
+                        type="text" 
+                        value={username} 
+                        placeholder="Username" 
+                        required
+                        onChange={(event) => {setUsername(event.target.value)}} 
+                        />
+                </div>
+                <div className="field">
+                    <label>Password:</label>
+                        <input 
+                        type="password" 
+                        value={password} 
+                        placeholder="Password"
+                        minLength="8"
+                        required
+                        onChange={(event) => {setPassword(event.target.value)}}
+                        />
+                </div>    
+                <button className="ui button" type="submit">
+                    {title}
+                </button>
+            </form>
+        </div>    
     )
 
 }
